@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Fitter.vcxproj" Id="d5cb15bd-0e55-4856-ba0a-9e522cd8f8e7" />
+</Solution>

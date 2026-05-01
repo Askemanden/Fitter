@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Fitter">
+      <UniqueIdentifier>{cebc5393-3495-451a-bbe0-21042547e577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fitter\Include">
+      <UniqueIdentifier>{ee7c3ce4-b62b-4270-a5f2-301f6c537a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fitter\Source">
+      <UniqueIdentifier>{afdd63ba-04a9-4764-b16b-fa1aa9a83564}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
