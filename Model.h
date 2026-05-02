@@ -40,5 +40,8 @@ public:
 
 	void train(const Matrix& x, const Matrix& y, double learningRate, size_t max_iterations);
 
+	const Parameters& getParameters() const {
+		return m_parameters;
+	}
 };
 
