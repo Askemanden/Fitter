@@ -49,10 +49,10 @@ private:
 
 	Vector computeLayer(const Vector& input, size_t layerIndex) const;
 
-	Vector ReLU(const Vector& input) const;
+	Vector(*activation)(const Vector&);
 
 public:
-	Model(std::initializer_list<size_t> shape) {
+	Model(std::initializer_list<size_t> shape, Vector(*activationFunc)(const Vector&)) {
 		if (shape.size() < 2) {
 			throw std::invalid_argument("Shape must contain at least input and output sizes.");
 		}
@@ -65,6 +65,8 @@ public:
 			Parameters params(shape.begin()[i + 1], shape.begin()[i]);
 			m_parameters.push_back(params);
 		}
+
+		activation = activationFunc;
 	}
 
 
@@ -83,3 +85,4 @@ public:
 	}
 };
 
+Vector ReLU(const Vector& input);

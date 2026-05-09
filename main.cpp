@@ -7,7 +7,7 @@ int main()
 	// 3 inputs
 	// 2 hidden layers with 5 neurons each
 	// 2 outputs
-	Model model({ 3, 5, 5, 2 });
+	Model model({ 3, 5, 5, 2 }, ReLU);
 
 	// Training data
 	//

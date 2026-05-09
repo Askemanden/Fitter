@@ -28,7 +28,7 @@ Vector Model::computeLayer(const Vector& input, size_t layerIndex) const
 	return result;
 }
 
-Vector Model::ReLU(const Vector& input) const
+Vector ReLU(const Vector& input)
 {
 	Vector result = input;
 	for (double& v : result) {
@@ -45,7 +45,7 @@ Vector Model::predict(const Vector& x) const
 	for (size_t i = 0; i < m_parameters.size(); ++i) {
 		y = computeLayer(y, i);
 		if (i < m_parameters.size() - 1) { // Don't apply ReLU to output layer
-			y = ReLU(y);
+			y = activation(y);
 		}
 	}
 	return y;
