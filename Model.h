@@ -2,45 +2,83 @@
 
 #include <iostream>
 #include <vector>
+#include <initializer_list>
+#include <random>
+
 
 typedef std::vector<double> Vector;
 typedef std::vector<std::vector<double>> Matrix;
 
-typedef struct {
+struct Parameters {
 	Matrix weights;
 	Vector bias;
-} Parameters;
+
+	// Random initialization
+	Parameters(size_t outSize, size_t inSize)
+		: weights(outSize, Vector(inSize)),
+		bias(outSize)
+	{
+		static std::random_device rd;
+		static std::mt19937 gen(rd());
+
+		std::normal_distribution<> dist(0.0, 0.1);
+
+		for (auto& row : weights) {
+			for (double& w : row) {
+				w = dist(gen);
+			}
+		}
+
+		for (double& b : bias) {
+			b = dist(gen);
+		}
+	}
+
+};
+
 
 class Model
 {
 private:
-	size_t m_inputSize;
-	size_t m_outputSize;
-	Parameters m_parameters;
+	std::vector<Parameters> m_parameters;
+	std::vector<size_t> m_shape;
 
 	Vector predict(const Vector& x, const Parameters& params) const;
 
-	Matrix predict(const Matrix& x, const Parameters& params) const;
+	Matrix predictAll(const Matrix& x, const Parameters& params) const;
+
+	Vector computeLayer(const Vector& input, size_t layerIndex) const;
+
+	Vector ReLU(const Vector& input) const;
 
 public:
-	Model(size_t inputSize, size_t outputSize) {
-		m_inputSize = inputSize;
-		m_outputSize = outputSize;
-		m_parameters.weights = Matrix(outputSize, Vector(inputSize, 0));
-		m_parameters.bias = Vector(outputSize, 0);
+	Model(std::initializer_list<size_t> shape) {
+		if (shape.size() < 2) {
+			throw std::invalid_argument("Shape must contain at least input and output sizes.");
+		}
+
+		m_shape = shape;
+
+		// offset one from the end due to shape containing output size 
+		// as well as hidden layers
+		for (size_t i = 0; i < shape.size() - 1; ++i) {
+			Parameters params(shape.begin()[i + 1], shape.begin()[i]);
+			m_parameters.push_back(params);
+		}
 	}
+
 
 	Vector predict(const Vector& x) const;
 
-	Matrix predict(const Matrix& x) const;
+	Matrix predictAll(const Matrix& x) const;
 
 	double cost(const Matrix& y_pred, const Matrix& y_true);
 
-	Parameters gradient(double h, const Matrix& x, const Matrix& y);
+	std::vector<Parameters> gradient(double h, const Matrix& x, const Matrix& y);
 
 	void train(const Matrix& x, const Matrix& y, double learningRate, size_t max_iterations);
 
-	const Parameters& getParameters() const {
+	const std::vector<Parameters>& getParameters() const {
 		return m_parameters;
 	}
 };

@@ -1,62 +1,104 @@
+#include <iostream>
 #include "Model.h"
 
+int main()
+{
+	// Network:
+	// 3 inputs
+	// 2 hidden layers with 5 neurons each
+	// 2 outputs
+	Model model({ 3, 5, 5, 2 });
 
-int main() {
+	// Training data
+	//
+	// Inputs:
+	// x0, x1, x2
+	//
+	// Outputs:
+	// y0 = x0 + x1 - x2
+	// y1 = x0 * x2
+	//
+	// Since there are no activation functions,
+	// the multiplication target cannot be learned perfectly.
+	// But this still tests multi-output training.
 
-	Model model(2, 2);
+	Matrix x = {
+		{0, 0, 0},
+		{0, 0, 1},
+		{0, 1, 0},
+		{1, 0, 0},
+		{1, 1, 0},
+		{1, 0, 1},
+		{0, 1, 1},
+		{1, 1, 1},
+		{2, 1, 0},
+		{2, 2, 1}
+	};
 
-	// Input matrix of all combinations of numbers 0 through 9
+	Matrix y = {
+		{0, 0}, // 0+0-0 , 0*0
+		{-1, 0},
+		{1, 0},
+		{1, 0},
+		{2, 0},
+		{0, 1},
+		{0, 0},
+		{1, 1},
+		{3, 0},
+		{3, 2}
+	};
 
-	// Initialize matrix to correct size
-	Matrix x(100, Vector(2));
-	// Fill matrix with all combinations of numbers 0 through 9
-	for (size_t i = 0; i < 10; ++i) {
-		for (size_t j = 0; j < 10; ++j) {
-			x[i * 10 + j][0] = i;
-			x[i * 10 + j][1] = j;
+	std::cout << "Predictions before training:\n\n";
+
+	Matrix predBefore = model.predictAll(x);
+
+	for (size_t i = 0; i < x.size(); ++i) {
+
+		std::cout << "Input: ";
+
+		for (double v : x[i]) {
+			std::cout << v << " ";
 		}
-	}
 
+		std::cout << " -> Predicted: ";
 
-	Matrix y(100, Vector(2));
-	// Fill output matrix with correct values
-	for (size_t i = 0; i < 10; ++i) {
-		for (size_t j = 0; j < 10; ++j) {
-			y[i * 10 + j][0] = i + j;
-			y[i * 10 + j][1] = i * 2 + j * 0.5;
+		for (double v : predBefore[i]) {
+			std::cout << v << " ";
 		}
+
+		std::cout << "\n";
 	}
 
-	model.train(x, y, 0.0001, 2000);
+	std::cout << "\nTraining...\n\n";
 
-	// Compare predicted output to true output
-	Matrix result = model.predict(x);
+	model.train(x, y, 0.01, 3000);
 
-	// Print results
-	for (size_t i = 0; i < result.size(); ++i) {
-		std::cout << "Input: (" << x[i][0] << ", " << x[i][1] << ") ";
-		std::cout << "Predicted: (" << result[i][0] << ", " << result[i][1] << ") ";
-		std::cout << "True: (" << y[i][0] << ", " << y[i][1] << ")" << std::endl;
-	}
-	// Print cost
-	std::cout << "Cost: " << model.cost(result, y) << std::endl;
+	std::cout << "Predictions after training:\n\n";
 
-	// Print parameters
-	std::cout << "Weights: " << std::endl;
-	Parameters params = model.getParameters();
-	for (size_t i = 0; i < params.weights.size(); ++i) {
-		for (size_t j = 0; j < params.weights[i].size(); ++j) {
-			std::cout << params.weights[i][j] << " ";
+	Matrix predAfter = model.predictAll(x);
+
+	for (size_t i = 0; i < x.size(); ++i) {
+
+		std::cout << "Input: ";
+
+		for (double v : x[i]) {
+			std::cout << v << " ";
 		}
-		std::cout << std::endl;
-	}
 
-	std::cout << "Bias: " << std::endl;
-	for (size_t i = 0; i < params.bias.size(); ++i) {
-		std::cout << params.bias[i] << " ";
-	}
-	std::cout << std::endl;
+		std::cout << " -> Predicted: ";
 
+		for (double v : predAfter[i]) {
+			std::cout << v << " ";
+		}
+
+		std::cout << " | Expected: ";
+
+		for (double v : y[i]) {
+			std::cout << v << " ";
+		}
+
+		std::cout << "\n";
+	}
 
 	return 0;
 }
