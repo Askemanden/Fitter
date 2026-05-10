@@ -3,17 +3,44 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp">
-      <Filter>Model</Filter>
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ActivationFunction.cpp">
+      <Filter>src\Model\Activation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Model">
+    <Filter Include="src">
+      <UniqueIdentifier>{c969daab-bfee-450e-af24-5cd10e3abacd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{29674216-3451-40ca-8736-9b79d67e9367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Model">
       <UniqueIdentifier>{41b1edc3-29d1-4c86-b1f4-7066c194d5e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Model">
+      <UniqueIdentifier>{6ffbecd1-ca73-464d-9672-17afe3e50dc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Model\Activation">
+      <UniqueIdentifier>{ed3c34cf-a872-4734-ade6-486110283e15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Model\Activation">
+      <UniqueIdentifier>{26766e93-b9d1-4faa-bdcb-e4ec5b47d69b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Model\Vector">
+      <UniqueIdentifier>{5598503d-15a4-4886-8134-ba8cb957944b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Model.h">
-      <Filter>Model</Filter>
+      <Filter>include\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ActivationFunction.h">
+      <Filter>include\Model\Activation</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>include\Model\Vector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

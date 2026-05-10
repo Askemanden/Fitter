@@ -1,13 +1,11 @@
 #include <iostream>
 #include "Model.h"
+#include "ActivationFunction.h"
 
 int main()
 {
 	// Network:
-	// 3 inputs
-	// 2 hidden layers with 5 neurons each
-	// 2 outputs
-	Model model({ 3, 5, 5, 2 }, ReLU);
+	Model<ActivationFunctions::ReLU> model({ 3, 10, 10, 2 }, ActivationFunctions::ReLU(), squareError);
 
 	// Training data
 	//
